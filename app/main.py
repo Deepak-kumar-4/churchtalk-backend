@@ -19,8 +19,9 @@ app = FastAPI(title="Church Multi-tenant Backend (FastAPI)")
 
 # ✅ CORS – allow frontend(s) to call this API
 origins = [
-    "http://localhost:3000",                       # local Next.js dev
-    "https://churchtalk-frontend.vercel.app/",      # 👈 your real Vercel URL
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://churchtalk-frontend.vercel.app"
 ]
 
 app.add_middleware(
