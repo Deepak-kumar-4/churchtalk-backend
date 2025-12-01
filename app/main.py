@@ -15,6 +15,7 @@ app = FastAPI(title="Church Multi-tenant Backend (FastAPI)")
 origins = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://churchtalk-frontend.vercel.app",
 ]
 
 app.add_middleware(
