@@ -4,18 +4,23 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-
 from .db import Base, engine
-from .routers import admin_auth_router, auth_login_router,churches_router, members_router, news_router
+from .routers import (
+    admin_auth_router,
+    auth_login_router,
+    churches_router,
+    members_router,
+    news_router,
+)
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Church Multi-tenant Backend (FastAPI)")
 
+# ✅ CORS – allow frontend(s) to call this API
 origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "https://churchtalk-frontend.vercel.app",
+    "http://localhost:3000",                       # local Next.js dev
+    "https://churchtalk-frontend.vercel.app/",      # 👈 your real Vercel URL
 ]
 
 app.add_middleware(
@@ -29,11 +34,10 @@ app.add_middleware(
 # Ensure uploads directory exists
 os.makedirs("uploads", exist_ok=True)
 
-# Mount /uploads to serve logo files
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 app.include_router(admin_auth_router)
-app.include_router(auth_login_router)   # /auth/login
+app.include_router(auth_login_router)
 app.include_router(churches_router)
 app.include_router(members_router)
 app.include_router(news_router)
